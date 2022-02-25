@@ -21,7 +21,7 @@ export class ViewStudentComponent implements OnInit {
     email: '',
     mobile: 0,
     genderId: '',
-    profileImageurl: '',
+    profileImageUrl: '',
     gender: {
       id: '',
       description: ''
@@ -35,6 +35,7 @@ export class ViewStudentComponent implements OnInit {
 
   isNewStudent = false;
   header = '';
+  displayProfileImageUrl= '';
 
   genderList: Gender[] = [];
 
@@ -52,7 +53,7 @@ export class ViewStudentComponent implements OnInit {
           {
             this.isNewStudent = true;
             this.header = 'Add New Student';
-
+            this.setImage();
 
           } else {
             this.isNewStudent = false;
@@ -61,6 +62,11 @@ export class ViewStudentComponent implements OnInit {
             this.studentService.getStudent(this.studentId).subscribe(
               (successResponse) => {
                 this.student = successResponse;
+                this.setImage();
+              },
+              (errorResponse) => {
+                //if there is any errors
+                this.setImage();
               }
             );
           }
@@ -100,6 +106,8 @@ export class ViewStudentComponent implements OnInit {
 
 
 }
+
+
 
 onDelete(): void{
   this.studentService.deleteStudent(this.student.id)
@@ -143,5 +151,37 @@ onAdd(): void
   );
 }
 
+uploadImage(event: any): void
+{
+  if(this.studentId){
+    const file: File = event.target.files[0];
+    this.studentService.uploadImage(this.student.id, file)
+    .subscribe(
+      (successResponse) => {
+        this.student.profileImageUrl = successResponse;
+        this.setImage();
+
+        //show notification
+        this.snackbar.open('The profile image has been updated successfully', undefined, {
+          duration: 2000
+        });
+      },
+      (errorResponse) => {
+
+      }
+    );
+  }
+}
+
+private setImage(): void
+{
+  if (this.student.profileImageUrl){
+    //fetch the image
+    this.displayProfileImageUrl = this.studentService.getImagePath(this.student.profileImageUrl);
+  } else {
+    //display default
+    this.displayProfileImageUrl = '/assets/user.png';
+  }
+}
 
 }

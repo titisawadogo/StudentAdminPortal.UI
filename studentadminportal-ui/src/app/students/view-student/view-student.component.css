@@ -10,3 +10,21 @@
 .mat-form-field{
   width: 100%;
 }
+
+.image-container{
+  width: 200px;
+  height: 200px;
+  background-color: #f7f7f7;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* this code is good if your default image is really big, it will help you make it smaller */
+
+.image-container img {
+  width: 200px;
+}
