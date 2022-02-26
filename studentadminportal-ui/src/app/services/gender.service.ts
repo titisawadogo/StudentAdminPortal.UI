@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Gender } from '../models/api-models/gender.model';
 import { Student } from '../models/api-models/student.model';
 
@@ -9,7 +10,7 @@ import { Student } from '../models/api-models/student.model';
 })
 export class GenderService {
 
-  private baseApiUrl = 'https://localhost:5001';
+  private baseApiUrl = environment.baseApiUrl;
 
   constructor(private httpClient: HttpClient) { }
 
